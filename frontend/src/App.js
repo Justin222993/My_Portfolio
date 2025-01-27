@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import ModelViewer from './gltf/ModelViewer';
+import './App.css';
 
 function App() {
   const [message, setMessage] = useState('');
@@ -25,10 +27,19 @@ function App() {
 
   return (
     <div>
-      <h1>Backend Message</h1>
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
-      {!loading && !error && <p>{message}</p>}
+      <div>
+        <h1>Backend Message</h1>
+        {loading && <p>Loading...</p>}
+        {error && <p>Error: {error.message}</p>}
+        {!loading && !error && <p>{message}</p>}
+      </div>
+      <div>
+        <ModelViewer 
+          scale={1} 
+          modelPath={"assets/dino.glb"} 
+          position={[0, 0, 0]} 
+        />
+      </div>
     </div>
   );
 }
