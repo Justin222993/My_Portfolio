@@ -36,7 +36,7 @@ function App() {
       <div>
         <ModelViewer 
           scale={1} 
-          modelPath={"assets/dino.glb"} 
+          modelPath={"assets/CharactaurhRig.glb"} 
           position={[0, 0, 0]} 
         />
       </div>

@@ -1,25 +1,31 @@
-import React, { useRef, useState } from "react";
-import { useLoader, useFrame } from "@react-three/fiber";
+import React, { useRef, useEffect } from "react";
+import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
-const GltfModel = ({ modelPath, scale = 40, position = [0, 0, 0] }) => {
-  const ref = useRef();
-  const gltf = useLoader(GLTFLoader, modelPath);
-  const [hovered, hover] = useState(false);
+const GltfModel = ({ modelPath, scale, position, groupRef, mouse }) => {
+  const model = useLoader(GLTFLoader, modelPath);
+  const headRef = useRef(null);
 
-  // Subscribe this component to the render-loop, rotate the mesh every frame
-  useFrame((state, delta) => (ref.current.rotation.y += 0));
+  useEffect(() => {
+    if (model && groupRef) {
+      const headBone = model.scene.getObjectByName("Head");
+      if (headBone) {
+        headRef.current = headBone;
+      }
+    }
+  }, [groupRef, model]);
+
+  useEffect(() => {
+    if (headRef.current) {
+      headRef.current.rotation.y = (mouse.x * Math.PI) / 4;
+      headRef.current.rotation.x = (-mouse.y * Math.PI) / 4;
+    }
+  }, [mouse]);
+
   return (
-    <>
-      <primitive
-        ref={ref}
-        object={gltf.scene}
-        position={position}
-        scale={hovered ? scale * 1 : scale}
-        onPointerOver={(event) => hover(true)}
-        onPointerOut={(event) => hover(false)}
-      />
-    </>
+    <group ref={groupRef} position={position}>
+      <primitive object={model.scene} scale={scale} />
+    </group>
   );
 };
 
