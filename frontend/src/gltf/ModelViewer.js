@@ -28,18 +28,18 @@ const ModelViewer = ({ modelPath, scale = 40, position = [0, 0, 0] }) => {
         height: "100vh",
       }}
     >
-      <Canvas style={{ width: "100%", height: "100%" }} camera={{ position: [0, 1, 3], rotation: [0, 0, 0] }}>
+      <Canvas style={{ width: "100%", height: "100%" }} camera={{ position: [0, 1, 3], rotation: [0, 0, 0] }} shadows>
 
         {/* Using useThree hook inside the Canvas */}
         <CameraController mouse={mouse} groupRef={groupRef} />
-        
-        <ambientLight intensity={0.3} />
+
+        <ambientLight intensity={0.5} />
+
         <spotLight
-          position={[-10, 3, 8]}
+          position={[6, 6, 4]}
           angle={0.4}
           penumbra={1}
-          intensity={1}
-          castShadow
+          intensity={500}
         />
         
         <Suspense fallback={null}>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ModelViewer from './gltf/ModelViewer';
 import './App.css';
+import './css/rainbow-background.scss';
 
 function App() {
   const [message, setMessage] = useState('');
@@ -27,12 +28,23 @@ function App() {
 
   return (
     <div>
-      <div>
+      {/* Rainbow effect */}
+      {[...Array(25)].map((_, i) => (
+        <div key={i} className="rainbow"></div>
+      ))}
+  
+      {/* Additional effects */}
+      <div className="h"></div>
+      <div className="v"></div>
+
+      {/* Text content wrapper */}
+      <div className="content-wrapper">
         <h1>Backend Message</h1>
         {loading && <p>Loading...</p>}
         {error && <p>Error: {error.message}</p>}
         {!loading && !error && <p>{message}</p>}
       </div>
+
       <div>
         <ModelViewer 
           scale={1} 
@@ -42,6 +54,7 @@ function App() {
       </div>
     </div>
   );
+  
 }
 
 export default App;
