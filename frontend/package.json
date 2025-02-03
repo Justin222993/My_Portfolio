@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-oauth/google": "^0.12.1",
     "@react-three/drei": "^9.121.3",
     "@react-three/fiber": "^8.17.12",
     "cra-template": "1.2.0",
