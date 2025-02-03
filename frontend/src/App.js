@@ -112,7 +112,7 @@ function App() {
     })
       .then((response) => response.json())
       .then(() => {
-        // Remove the deleted comment from unapproved list
+        setApprovedComments(approvedComments.filter(comment => comment.id !== id));
         setUnapprovedComments(unapprovedComments.filter(comment => comment.id !== id));
       })
       .catch((error) => console.error("Error deleting comment:", error));
@@ -169,6 +169,9 @@ function App() {
               <p>
                 <strong>Posted by:</strong> {comment.google_user_id}
               </p>
+              {isAdmin && (
+                <button onClick={() => handleDeleteComment(comment.id)}>Delete</button>
+              )}
             </div>
           ))}
         </div>
