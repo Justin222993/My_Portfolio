@@ -191,7 +191,7 @@ const AboutMe = ({ language }) => {
           <div style={{ marginBottom: '20px', textAlign: 'center' }}>
             <h3 style={{ color: '#007bff', marginBottom: '10px' }}>{content.downloadCV}</h3>
             <a
-              href="/Resume/JustinMorissette-Resume.pdf" // Replace with your CV file path
+              href={`${process.env.PUBLIC_URL}/Resume/JustinMorissette-Resume.pdf`} // Replace with your CV file path
               download="Justin_Morissette_CV.pdf"
               style={{
                 display: 'inline-block',
