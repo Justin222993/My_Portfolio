@@ -33,16 +33,23 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install
+      - name: Build the app
+        run: |
+          cd frontend
+          npm run build
+        env:
+          GENERATE_SOURCEMAP: ${{ secrets.GENERATE_SOURCEMAP }}
+          REACT_APP_GOOGLE_CLIENT_ID: ${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}
+          REACT_APP_ADMIN_GOOGLE_USER_ID: ${{ secrets.REACT_APP_ADMIN_GOOGLE_USER_ID }}
+          REACT_APP_API_BASE_URL: ${{ secrets.REACT_APP_API_BASE_URL }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: '.'
+          path: './frontend/build'  # Upload the build folder from the 'frontend' folder
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-    env:
-      GENERATE_SOURCEMAP: ${{ secrets.GENERATE_SOURCEMAP }}
-      REACT_APP_GOOGLE_CLIENT_ID: ${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}
-      REACT_APP_ADMIN_GOOGLE_USER_ID: ${{ secrets.REACT_APP_ADMIN_GOOGLE_USER_ID }}
-      REACT_APP_API_BASE_URL: ${{ secrets.REACT_APP_API_BASE_URL }}
