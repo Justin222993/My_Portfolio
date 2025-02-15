@@ -117,22 +117,35 @@ const Comments = ({ user, setUser, isAdmin, ADMIN_GOOGLE_USER_ID, language }) =>
   };
 
   // Format the timestamp nicely
-  const formatTimestamp = (timestamp) => {
+  const formatTimestamp = (timestamp, language = "English") => {
     const time = new Date(timestamp);
     const now = new Date();
     const diffInMs = now - time;
     const diffInMinutes = Math.floor(diffInMs / 60000);
-
-    if (diffInMinutes < 60) {
-      return `${diffInMinutes} min ago`;
+  
+    if (language === "French") {
+      if (diffInMinutes < 60) {
+        return `il y a ${diffInMinutes} min`;
+      }
+      const diffInHours = Math.floor(diffInMinutes / 60);
+      if (diffInHours < 24) {
+        return `il y a ${diffInHours} heure${diffInHours > 1 ? 's' : ''}`;
+      }
+      const diffInDays = Math.floor(diffInHours / 24);
+      return `il y a ${diffInDays} jour${diffInDays > 1 ? 's' : ''}`;
+    } else {
+      if (diffInMinutes < 60) {
+        return `${diffInMinutes} min ago`;
+      }
+      const diffInHours = Math.floor(diffInMinutes / 60);
+      if (diffInHours < 24) {
+        return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
+      }
+      const diffInDays = Math.floor(diffInHours / 24);
+      return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
     }
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    if (diffInHours < 24) {
-      return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
-    }
-    const diffInDays = Math.floor(diffInHours / 24);
-    return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
   };
+  
 
   if (loading) {
     return (
@@ -290,54 +303,183 @@ const Comments = ({ user, setUser, isAdmin, ADMIN_GOOGLE_USER_ID, language }) =>
       <>
         {/* Conditionally render for mobile */}
         {isMobile ? (
-  <mesh ref={planeRef} position={[0, 3, 41]} rotation={[0, Math.PI, 0]}>
-  <Html transform>
-    <div
-      style={{
-        width: '500px',
-        height: '800px',
-        overflowY: 'auto',
-        padding: '10px',
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
-        borderRadius: '5px',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-      }}
-    >
-      <h3>Comments:</h3>
-      {approvedComments.map((comment) => (
-        <div key={comment.id} style={{ marginBottom: '20px' }}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              marginBottom: '10px',
-            }}
-          >
-            <img
-              src={comment.photo || 'images/no-image-found.jpg'}
-              alt="Profile"
-              style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                objectFit: 'cover',
-                marginRight: '10px',
-              }}
-            />
-            <div>
-              <h4 style={{ margin: '0', fontSize: '16px' }}>{comment.name}</h4>
-              <p style={{ margin: '0', fontSize: '12px', color: '#555' }}>
-                {formatTimestamp(comment.created_at)}
-              </p>
-            </div>
-          </div>
-          <p>{comment.comment}</p>
-        </div>
-      ))}
-    </div>
-  </Html>
-</mesh>
-        ) : (
+          <mesh ref={planeRef} position={[0, 3, 41]} rotation={[0, Math.PI, 0]}>
+            <Html transform>
+              <div
+                style={{
+                  width: '500px',
+                  height: '800px',
+                  overflowY: 'auto',
+                  padding: '10px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                  borderRadius: '5px',
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
+                {/* Google Sign-In & Logout */}
+                {!user ? (
+                  // Sign-in Button
+                  <button
+                    onClick={login}
+                    style={{
+                      fontSize: '16px',
+                      padding: '10px 20px',
+                      backgroundColor: '#4285F4',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '5px',
+                      cursor: 'pointer',
+                      marginBottom: '20px',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {language === 'French' ? (
+                      <>
+                        Connectez-vous avec <br /> Google pour <br /> commenter !
+                      </>
+                    ) : (
+                      <>
+                        Sign in with Google <br /> to comment!
+                      </>
+                    )}
+                  </button>
+                ) : (
+                  // User Info and Logout
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      marginBottom: '20px',
+                      width: '100%',
+                    }}
+                  >
+                    {/* User Profile and Logout on One Line */}
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        width: '100%',
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <img
+                          src={user.picture}
+                          alt="Profile"
+                          style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                            marginRight: '10px',
+                          }}
+                        />
+                        <p style={{ fontSize: '14px', fontWeight: 'bold', margin: '0' }}>{user.name}</p>
+                      </div>
+                      <button
+                        onClick={handleLogout}
+                        style={{
+                          padding: '6px 12px',
+                          backgroundColor: '#FF4C4C',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '5px',
+                          cursor: 'pointer',
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        Logout
+                      </button>
+                    </div>
+
+                    {/* Comment Input & Submit Button on a Separate Line */}
+                    <div style={{ marginTop: '15px', display: 'flex', width: '100%' }}>
+                      <input
+                        type="text"
+                        value={comment}
+                        onChange={handleCommentChange}
+                        placeholder={language === "French" ? "Écrivez votre commentaire..." : "Write your comment..."}
+                        style={{
+                          flex: 1,
+                          padding: '8px',
+                          border: '1px solid #ccc',
+                          borderRadius: '5px',
+                          fontSize: '14px',
+                        }}
+                      />
+                      <button
+                        onClick={handleCommentSubmit}
+                        style={{
+                          marginLeft: '10px',
+                          padding: '8px 12px',
+                          backgroundColor: '#4285F4',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '5px',
+                          cursor: 'pointer',
+                          fontWeight: 'bold',
+                        }}
+                      >
+                    {language === 'French' ? (
+                      <>
+                        Envoyer
+                      </>
+                    ) : (
+                      <>
+                        Send
+                      </>
+                    )}
+                      </button>
+                    </div>
+
+                    {/* Error & Success Messages on Another Line */}
+                    <div style={{ marginTop: '10px', minWidth: '300px', textAlign: 'center' }}>
+                      {submitError && <div style={{ color: 'red', fontSize: '14px' }}>{submitError}</div>}
+                      {submitSuccess && <div style={{ color: 'green', fontSize: '14px' }}>{submitSuccess}</div>}
+                    </div>
+                  </div>
+                )}
+
+
+                <h3>Comments:</h3>
+                {approvedComments.map((comment) => (
+                  <div key={comment.id} style={{ marginBottom: '20px', width: '100%' }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginBottom: '10px',
+                      }}
+                    >
+                      <img
+                        src={comment.photo || 'images/no-image-found.jpg'}
+                        alt="Profile"
+                        style={{
+                          width: '40px',
+                          height: '40px',
+                          borderRadius: '50%',
+                          objectFit: 'cover',
+                          marginRight: '10px',
+                        }}
+                      />
+                      <div>
+                        <h4 style={{ margin: '0', fontSize: '16px' }}>{comment.name}</h4>
+                        <p style={{ margin: '0', fontSize: '12px', color: '#555' }}>
+                          {formatTimestamp(comment.created_at, language)}
+                        </p>
+                      </div>
+                    </div>
+                    <p>{comment.comment}</p>
+                  </div>
+                ))}
+              </div>
+            </Html>
+          </mesh>
+        )  : (
           <>
             {/* Non-mobile or desktop view */}
             {isAdmin && (
@@ -466,7 +608,7 @@ const Comments = ({ user, setUser, isAdmin, ADMIN_GOOGLE_USER_ID, language }) =>
                           </>
                         ) : (
                           <>
-                            Sign-In with Google <br /> to comment!
+                            SignIn with Google <br /> to comment!
                           </>
                         )}
                       </button>
@@ -621,7 +763,7 @@ const Comments = ({ user, setUser, isAdmin, ADMIN_GOOGLE_USER_ID, language }) =>
                       anchorX="left"
                       anchorY="bottom"
                     >
-                      {comment.name} - {formatTimestamp(comment.created_at)}
+                      {comment.name} - {formatTimestamp(comment.created_at, language)}
                     </Text>
     
                     {/* Display profile picture */}
