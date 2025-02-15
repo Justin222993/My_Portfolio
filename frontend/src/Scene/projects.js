@@ -149,7 +149,7 @@ const Projects = ({ isAdmin, language }) => {
         clientY >= dropZone.top &&
         clientY <= dropZone.bottom
       ) {
-        window.open(`${process.env.PUBLIC_URL}/project/${projects[draggingIndex].id}`, '_blank');
+        window.open(`${process.env.PUBLIC_URL}/#/project/${projects[draggingIndex].id}`, '_blank');
       }
     }
     setDraggingIndex(null);
