@@ -141,7 +141,7 @@ const AboutMe = ({ language }) => {
               {language === 'English' ? englishText.hobbiesTitle : frenchText.hobbiesTitle}
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
-              {/* Climbing Section */}
+
               <div 
                 style={{ 
                   display: 'flex', 
@@ -163,7 +163,6 @@ const AboutMe = ({ language }) => {
                 />
               </div>
 
-              {/* Writing Section */}
               <div 
                 style={{ 
                   display: 'flex', 
