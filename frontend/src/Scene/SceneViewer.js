@@ -163,38 +163,94 @@ const SceneViewer = ({ language }) => {
             mouse={mouse}
           />
 
-          <SpeechBubble position={[1.8, 0.4, -2]}/>
+          {isMobile ? (
+            <>
+              <CharacterModel
+                modelPath={`${process.env.PUBLIC_URL}/assets/CharactaurhRig.glb`}
+                scale={1}
+                position={[0, 0, -2]}
+                groupRef={groupRef}
+                mouse={mouse}
+              />
+              
+              <SpeechBubble position={[0, 1, -2]} />
 
-          <Text
-        position={[1, 0.95, 0.26]}
-        fontSize={0.08}
-        color="black"
-        anchorX="center"
-        anchorY="middle"
-        maxWidth={1.2}
-        lineHeight={1.2}
-        textAlign="center"
-      >
-            {language === "French" ?
-            "Vous pouvez cliquer sur les flèches pour naviguer entre les pages!" : 
-            "You can click on the arrows to move through the pages!"}
-      </Text>
+              <Text
+                position={[0, 1.30, 0.26]}
+                fontSize={0.08}
+                color="black"
+                anchorX="center"
+                anchorY="middle"
+                maxWidth={1.2}
+                lineHeight={1.2}
+                textAlign="center"
+              >
+                {language === "French"
+                  ? "Vous pouvez cliquer sur les flèches pour naviguer entre les pages!"
+                  : "You can click on the arrows to move through the pages!"}
+              </Text>
 
-          <ForestHouseModel
-            modelPath={`${process.env.PUBLIC_URL}/assets/forest_house.glb`}
-            scale={40}
-            position={[-4.5, -0.5, -8]}
-            rotation={[0, Math.PI / 1.4, 0]}
-            groupRef={groupRef}
-          />
+              <ForestHouseModel
+                modelPath={`${process.env.PUBLIC_URL}/assets/forest_house.glb`}
+                scale={40}
+                position={[-2, -1.2, -6]}
+                rotation={[0, Math.PI / 1.5, 0]}
+                groupRef={groupRef}
+              />
 
-          <LayeredText
-            position={[6, 7, -13]}
-            rotation={[0, 0, 0]}
-            fontSize={1.5}
-          >
-            Justin Morissette
-          </LayeredText>
+              <LayeredText
+                position={[0, 7.5, -13]}
+                rotation={[0, 0, 0]}
+                fontSize={1}
+              >
+                Justin Morissette
+              </LayeredText>
+            </>
+          ) : (
+            <>
+              <CharacterModel
+                modelPath={`${process.env.PUBLIC_URL}/assets/CharactaurhRig.glb`}
+                scale={1}
+                position={[0, 0, -2]}
+                groupRef={groupRef}
+                mouse={mouse}
+              />
+              
+              <SpeechBubble position={[1.8, 0.4, -2]} />
+
+              <Text
+                position={[1, 0.95, 0.26]}
+                fontSize={0.08}
+                color="black"
+                anchorX="center"
+                anchorY="middle"
+                maxWidth={1.2}
+                lineHeight={1.2}
+                textAlign="center"
+              >
+                {language === "French"
+                  ? "Vous pouvez cliquer sur les flèches pour naviguer entre les pages!"
+                  : "You can click on the arrows to move through the pages!"}
+              </Text>
+
+              <ForestHouseModel
+                modelPath={`${process.env.PUBLIC_URL}/assets/forest_house.glb`}
+                scale={40}
+                position={[-4.5, -0.5, -8]}
+                rotation={[0, Math.PI / 1.4, 0]}
+                groupRef={groupRef}
+              />
+
+              <LayeredText
+                position={[6, 7, -13]}
+                rotation={[0, 0, 0]}
+                fontSize={1.5}
+              >
+                Justin Morissette
+              </LayeredText>
+            </>
+          )}
+
 
           {/* About me */}
 
