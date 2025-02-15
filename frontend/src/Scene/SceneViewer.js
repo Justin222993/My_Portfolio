@@ -138,14 +138,6 @@ const SceneViewer = ({ language }) => {
         shadows
       >
           <ambientLight />
-          <mesh position={[0, 1, 0]}>
-            <boxGeometry args={[1, 1, 1]} />
-            <meshStandardMaterial color="orange" />
-          </mesh>
-          <mesh position={[1, 0, 0]}>
-            <boxGeometry args={[1, 1, 1]} />
-            <meshStandardMaterial color="orange" />
-          </mesh>
         <CameraController mouse={mouse} groupRef={groupRef} rotation={rotation} />
         <ambientLight intensity={0.5} />
         <spotLight position={[6, 6, 4]} angle={0.4} penumbra={1} intensity={500} />

@@ -8,7 +8,7 @@ function App() {
   const [language, setLanguage] = useState("English");
 
   const toggleLanguage = () => {
-    setLanguage((prev) => (prev === "@@@@English" ? "@@@@French" : "@@@@English"));
+    setLanguage((prev) => (prev === "English" ? "French" : "English"));
   };
 
   return (

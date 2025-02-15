@@ -76,7 +76,7 @@ const AboutMe = ({ language }) => {
           {/* Image Section */}
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
             <img
-              src="/images/JustinMorissetteProfile.jpg"
+              src={`${process.env.PUBLIC_URL}//images/JustinMorissetteProfile.jpg`}
               alt="Profile"
               style={{
                 maxWidth: '300px',
@@ -142,12 +142,12 @@ const AboutMe = ({ language }) => {
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '70%' }}>
-                <img src="/images/climbing.jpg" alt="Climbing" style={{ maxWidth: '500px', borderRadius: '10px' }} />
+                <img src={`${process.env.PUBLIC_URL}/images/climbing.jpg`} alt="Climbing" style={{ maxWidth: '500px', borderRadius: '10px' }} />
                 <h3>{language === 'English' ? englishText.title1 : frenchText.title1}</h3>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '70%' }}>
                 <h3>{language === 'English' ? englishText.title2 : frenchText.title2}</h3>
-                <img src="/images/writing.jpg" alt="Writing" style={{ maxWidth: '500px', borderRadius: '10px' }} />
+                <img src={`${process.env.PUBLIC_URL}/images/writing.jpg`} alt="Writing" style={{ maxWidth: '500px', borderRadius: '10px' }} />
               </div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <h3><b>{language === 'English' ? englishText.title3 : frenchText.title3}</b></h3>
@@ -159,7 +159,7 @@ const AboutMe = ({ language }) => {
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
             <h3 style={{ color: '#007bff', marginBottom: '10px' }}>{content.connectWithMe}</h3>
             <a
-              href="https://github.com/Justin222993" // Replace with actual GitHub link
+              href="https://github.com/Justin222993"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -173,7 +173,7 @@ const AboutMe = ({ language }) => {
             </a>
             |
             <a
-              href="https://www.linkedin.com/in/justin-morissette/" // Replace with actual LinkedIn link
+              href="https://www.linkedin.com/in/justin-morissette/"
               target="_blank"
               rel="noopener noreferrer"
               style={{
