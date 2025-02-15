@@ -9,5 +9,11 @@ class Comment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['google_user_id', 'comment', 'approved'];
+    protected $fillable = [
+        'google_user_id',
+        'name',
+        'photo',
+        'comment',
+        'approved',
+    ];
 }

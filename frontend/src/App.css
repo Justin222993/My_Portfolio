@@ -17,17 +17,6 @@
 .google-login,
 .content-wrapper,
 .comment-section,
-.comments-list {
-  position: absolute; /* Float above the model */
-  z-index: 1000; /* High z-index to be interactive */
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.8); /* Slight transparency */
-  padding: 10px 20px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
 
 .google-login {
   top: 20px;
@@ -68,18 +57,6 @@ button:disabled {
   background-color: #ccc;
 }
 
-.comments-list {
-  position: absolute;
-  z-index: 1000;
-  top: 320px;
-  max-width: 45%;
-  text-align: left;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 0.8); /* Slight transparency for the background */
-}
-
 .approved-comments {
   left: 10%;  /* Approved comments on the left */
 }
@@ -102,13 +79,9 @@ button:disabled {
 }
 
 .user-profile {
-  position: absolute;
-  top: 10px;
-  right: 20px;
   display: flex;
   align-items: center;
   gap: 10px;
-  z-index: 1001;
   background: rgba(255, 255, 255, 0.8);
   padding: 5px 10px;
   border-radius: 8px;
@@ -152,3 +125,24 @@ button:disabled {
   cursor: pointer;
 }
 
+body {
+  background-color: #f6eedc;
+}
+
+button {
+  z-index: 1;
+}
+
+.arrow {
+  position: fixed; /* Instead of absolute */
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 5px;
+  z-index: 9999; /* Ensure it's above everything */
+  pointer-events: all; /* Ensure they can be clicked */
+}
