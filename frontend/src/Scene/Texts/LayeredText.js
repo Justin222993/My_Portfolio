@@ -38,7 +38,7 @@ const LayeredText = ({
       {/* Base layer (blue) */}
       <Text
         ref={blueTextRef}
-        font="/fonts/Fredoka-Bold.ttf"
+        font={`${process.env.PUBLIC_URL}/fonts/Fredoka-Bold.ttf`}
         fontSize={fontSize}
         anchorX={anchorX}
         anchorY={anchorY}
@@ -53,7 +53,7 @@ const LayeredText = ({
       {/* Top layer (red) */}
       <Text
         ref={redTextRef}
-        font="/fonts/Fredoka-Bold.ttf"
+        font={`${process.env.PUBLIC_URL}/fonts/Fredoka-Bold.ttf`}
         fontSize={fontSize}
         anchorX={anchorX}
         anchorY={anchorY}

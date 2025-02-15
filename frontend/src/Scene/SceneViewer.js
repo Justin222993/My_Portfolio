@@ -137,12 +137,21 @@ const SceneViewer = ({ language }) => {
         }}
         shadows
       >
+          <ambientLight />
+          <mesh position={[0, 1, 0]}>
+            <boxGeometry args={[1, 1, 1]} />
+            <meshStandardMaterial color="orange" />
+          </mesh>
+          <mesh position={[1, 0, 0]}>
+            <boxGeometry args={[1, 1, 1]} />
+            <meshStandardMaterial color="orange" />
+          </mesh>
         <CameraController mouse={mouse} groupRef={groupRef} rotation={rotation} />
         <ambientLight intensity={0.5} />
         <spotLight position={[6, 6, 4]} angle={0.4} penumbra={1} intensity={500} />
         <Suspense fallback={null}>
           <CharacterModel
-            modelPath={"assets/CharactaurhRig.glb"}
+            modelPath={`${process.env.PUBLIC_URL}/assets/CharactaurhRig.glb`}
             scale={1}
             position={[0, 0, -2]}
             groupRef={groupRef}
@@ -167,7 +176,7 @@ const SceneViewer = ({ language }) => {
       </Text>
 
           <ForestHouseModel
-            modelPath={"assets/forest_house.glb"}
+            modelPath={`${process.env.PUBLIC_URL}/assets/forest_house.glb`}
             scale={40}
             position={[-4.5, -0.5, -8]}
             rotation={[0, Math.PI / 1.4, 0]}

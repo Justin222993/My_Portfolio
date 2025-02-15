@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import SceneViewer from "./Scene/SceneViewer";
 import "./App.css";
 import ProjectDetails from "./Scene/ProjectDetails";
@@ -8,7 +8,7 @@ function App() {
   const [language, setLanguage] = useState("English");
 
   const toggleLanguage = () => {
-    setLanguage((prev) => (prev === "English" ? "French" : "English"));
+    setLanguage((prev) => (prev === "@@@@English" ? "@@@@French" : "@@@@English"));
   };
 
   return (
