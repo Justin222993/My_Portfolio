@@ -75,6 +75,19 @@ const SceneViewer = ({ language }) => {
     };
   }, [currentColor, targetColor]);
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    // Check if it's a mobile device based on the screen width
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 968); // Adjust based on your definition of mobile
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   // Mouse movement handling
   const onMouseMove = (event) => {
     const x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -240,16 +253,16 @@ const SceneViewer = ({ language }) => {
       {/* Left and Right Arrows */}
       <div
         style={arrowStyle.left}
-        onMouseEnter={() => handleHover(-10)}
-        onMouseLeave={() => handleUnhover(-10)}
+        onMouseEnter={!isMobile ? () => handleHover(-10) : undefined}
+        onMouseLeave={!isMobile ? () => handleUnhover(-10) : undefined}
         onClick={() => handleClick(90, "left")}
       >
         ◀
       </div>
       <div
         style={arrowStyle.right}
-        onMouseEnter={() => handleHover(10)}
-        onMouseLeave={() => handleUnhover(10)}
+        onMouseEnter={!isMobile ? () => handleHover(10) : undefined}
+        onMouseLeave={!isMobile ? () => handleUnhover(10) : undefined}
         onClick={() => handleClick(-90, "right")}
       >
         ▶

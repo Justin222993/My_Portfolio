@@ -15,6 +15,7 @@ const Comments = ({ user, setUser, isAdmin, ADMIN_GOOGLE_USER_ID, language }) =>
   const [submitSuccess, setSubmitSuccess] = useState(null);
   const groupRef = useRef();
   const planeRef = useRef();
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 968);
 
   // Variables to handle dragging and inertia
   const dragging = useRef(false);
@@ -44,6 +45,15 @@ const Comments = ({ user, setUser, isAdmin, ADMIN_GOOGLE_USER_ID, language }) =>
       console.error('Error fetching user data:', error);
     }
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 968);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   
   const login = useGoogleLogin({
     onSuccess: handleLoginSuccess,
@@ -205,6 +215,7 @@ const Comments = ({ user, setUser, isAdmin, ADMIN_GOOGLE_USER_ID, language }) =>
   const handleCommentChange = (e) => {
     setComment(e.target.value);
   };
+  
 
   // Submit a comment to the backend
   const handleCommentSubmit = () => {
@@ -279,312 +290,366 @@ const Comments = ({ user, setUser, isAdmin, ADMIN_GOOGLE_USER_ID, language }) =>
         .catch((error) => console.error("Error approving comment:", error));
     };
 
-  return (
-    <>
-
-    {isAdmin && (
-      <mesh ref={planeRef} position={[14, 10, 41]} rotation={[0, Math.PI, 0]}>
-        <Html transform>
+    return (
+      <>
+        {/* Conditionally render for mobile */}
+        {isMobile ? (
+  <mesh ref={planeRef} position={[0, 3, 41]} rotation={[0, Math.PI, 0]}>
+  <Html transform>
+    <div
+      style={{
+        width: '500px',
+        height: '800px',
+        overflowY: 'auto',
+        padding: '10px',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        borderRadius: '5px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+      }}
+    >
+      <h3>Comments:</h3>
+      {approvedComments.map((comment) => (
+        <div key={comment.id} style={{ marginBottom: '20px' }}>
           <div
-            className="approved-comments"
             style={{
-              width: '300px',
-              height: '500px',
-              overflowY: 'auto',
-              padding: '10px',
-              backgroundColor: 'rgba(255, 255, 255, 0.8)',
-              borderRadius: '5px',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+              display: 'flex',
+              alignItems: 'center',
+              marginBottom: '10px',
             }}
           >
-            <h3>Approved Comments:</h3>
-            {approvedComments.map((comment) => (
-              <div key={comment.id} className="comment">
-                <p>{comment.comment}</p>
-                <p>
-                  <strong>Posted by:</strong> {comment.google_user_id}
-                </p>
-                <button
-                  onClick={() => handleDeleteComment(comment.id)}
-                  style={{
-                    padding: '6px 12px',
-                    backgroundColor: '#FF4C4C',
-                    border: 'none',
-                    borderRadius: '4px',
-                    color: 'white',
-                    cursor: 'pointer',
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
-          </div>
-        </Html>
-      </mesh>
-    )}
-
-  {isAdmin && (
-      <mesh ref={planeRef} position={[14, -7, 41]} rotation={[0, Math.PI, 0]}>
-        <Html transform>
-        <div
-            className="unapproved-comments"
-            style={{
-              width: '300px',
-              height: '500px',
-              overflowY: 'auto',
-              padding: '10px',
-              backgroundColor: 'rgba(255, 255, 255, 0.8)',
-              borderRadius: '5px',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-            }}
-          >
-          <h3>Unapproved Comments:</h3>
-          {unapprovedComments.map((comment) => (
-            <div key={comment.id} className="comment">
-              <p>{comment.comment}</p>
-              <p>
-                <strong>Posted by:</strong> {comment.google_user_id}
+            <img
+              src={comment.photo || 'images/no-image-found.jpg'}
+              alt="Profile"
+              style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                objectFit: 'cover',
+                marginRight: '10px',
+              }}
+            />
+            <div>
+              <h4 style={{ margin: '0', fontSize: '16px' }}>{comment.name}</h4>
+              <p style={{ margin: '0', fontSize: '12px', color: '#555' }}>
+                {formatTimestamp(comment.created_at)}
               </p>
-              <button
-                onClick={() => handleApproveComment(comment.id)}
-                style={{
-                  padding: '6px 12px',
-                  backgroundColor: '#4CAF50',
-                  border: 'none',
-                  borderRadius: '4px',
-                  color: 'white',
-                  cursor: 'pointer',
-                  marginRight: '8px',
-                }}
-              >
-                Approve
-              </button>
-              <button
-                onClick={() => handleDeleteComment(comment.id)}
-                style={{
-                  padding: '6px 12px',
-                  backgroundColor: '#FF4C4C',
-                  border: 'none',
-                  borderRadius: '4px',
-                  color: 'white',
-                  cursor: 'pointer',
-                }}
-              >
-                Delete
-              </button>
             </div>
-          ))}
+          </div>
+          <p>{comment.comment}</p>
         </div>
-        </Html>
-      </mesh>
-    )}
-
-      <spotLight position={[8, 6, 2]} angle={1.9} penumbra={1} intensity={300} />
-
-      {!user ? (
-          <RoundedBox
-          position={[-1.8, 2, 9]}
-          args={[1.4, 1.4, 0.3]}
-          radius={0.05}
-          smoothness={4}
-        >
-        <meshStandardMaterial color="#B5828C" />
-        <mesh ref={planeRef} position={[-14, 8, 45]} rotation={[0, Math.PI, 0]}>
-          <Html transform>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <button
-                onClick={login}
-                style={{
-                  fontSize: '2rem',
-                  padding: '20px 40px',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
-                  fontWeight: 'bold',
-                  justifyContent: 'center',
-                }}
-              >
-              {language === "French" ? (
-                <>
-                  Connectez-vous avec  <br /> Google pour  <br /> commenter !
-                </>
-              ) : (
-                <>
-                  Sign-In with Google <br /> to comment!
-                </>
-              )}
-              </button>
-            </div>
-          </Html>
-        </mesh>
-    </RoundedBox>
+      ))}
+    </div>
+  </Html>
+</mesh>
         ) : (
-          <RoundedBox
-            position={[-1.8, 2, 9]}
-            args={[1.4, 1.4, 0.3]}
-            radius={0.05}
-            smoothness={4}
-          >
-            <meshStandardMaterial color="#B5828C" />
-            <mesh ref={planeRef} position={[-14, 15.5, 45]} rotation={[0, Math.PI, 0]}>
-              <Html transform>
-                <div className="user-profile">
-                  <img src={user.picture} alt="Profile" style={{
-                    width: '80px',
-                    height: '80px',
-                    borderRadius: '50%',
-                    border: '2px solid white'
-                  }} />
-                  <button onClick={handleLogout} style={{
-                    padding: '16px 30px',
-                    backgroundColor: '#FF4C4C',
-                    border: 'none',
-                    borderRadius: '20px',
-                    color: 'white',
-                    fontSize: '20px',
-                    fontWeight: 'bold',
-                    boxShadow: '0 2px 5px rgba(0,0,0,0.2)'
-                  }}>
-                    Logout
-                  </button>
-                </div>
-              </Html>
-            </mesh>
-
-            <mesh ref={planeRef} position={[-14.8, 8, 45]} rotation={[0, Math.PI, 0]}>
-              <Html transform>
-                  <textarea
-                    value={comment}
-                    onChange={handleCommentChange}
-                    placeholder={language === "French" ? "Écrivez votre commentaire..." : "Write your comment..."}
-                    rows="4"
-                    cols="25"
-                    maxLength={100}
+          <>
+            {/* Non-mobile or desktop view */}
+            {isAdmin && (
+              <mesh ref={planeRef} position={[14, 10, 41]} rotation={[0, Math.PI, 0]}>
+                <Html transform>
+                  <div
+                    className="approved-comments"
                     style={{
-                      width:'350px',
-                      height: '280px',
+                      width: '300px',
+                      height: '500px',
+                      overflowY: 'auto',
                       padding: '10px',
-                      fontSize: '20px',
+                      backgroundColor: 'rgba(255, 255, 255, 0.8)',
                       borderRadius: '5px',
-                      resize: 'none',
-                      backgroundColor: '#F8F8F8',
-                      border: '1px solid #ccc',
-                    }}
-                  />
-                  <button
-                    onClick={handleCommentSubmit}
-                    disabled={!comment.trim()}
-                    style={{
-                      padding: '16px 16px',
-                      backgroundColor: '#4CAF50',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '5px',
-                      cursor: 'pointer',
-                      width:'84%',
+                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
                     }}
                   >
-                    {language === "French" ? "Envoyer" : "Send"}
-                  </button>
-              </Html>
-            </mesh>
-            <mesh ref={planeRef} position={[-15, 1.5, 45]} rotation={[0, Math.PI, 0]}>
-              <Html transform>
-              {submitError && (
-                    <div style={{ 
-                      color: 'red', 
-                      fontSize: '24px', 
-                      marginTop: '150px',
-                      marginLeft: '-130px',
-                      minWidth: '300px'
-                    }}>
-                      {submitError}
-                    </div>
-                  )}
-                {submitSuccess && (
-                    <div style={{ 
-                      color: 'green', 
-                      fontSize: '24px', 
-                      marginTop: '150px',
-                      marginLeft: '-130px',
-                      minWidth: '300px'
-                    }}>
-                      {submitSuccess}
-                    </div>
-                  )}
-              </Html>
-            </mesh>
-          </RoundedBox>
-        )}
-
-      <group
-        ref={groupRef}
-        position={[0, 3, 9]}
-        rotation={[0, Math.PI * -1, 0]}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerOut={handlePointerUp}
-      >
-        {approvedComments.map((comment) => {
-          const lines = splitIntoLines(comment.comment);
-          const boxHeight = lines.length * lineHeight + 0.2;
-          const yPosition = -totalHeight;
-          totalHeight += boxHeight + boxGap;
-          topBound += boxHeight;
-
-          return (
-            <group key={comment.id} position={[0, yPosition - boxHeight / 2, 0]}>
-              <RoundedBox args={[2, boxHeight, 0.3]} radius={0.05} smoothness={4}>
+                    <h3>Approved Comments:</h3>
+                    {approvedComments.map((comment) => (
+                      <div key={comment.id} className="comment">
+                        <p>{comment.comment}</p>
+                        <p>
+                          <strong>Posted by:</strong> {comment.google_user_id}
+                        </p>
+                        <button
+                          onClick={() => handleDeleteComment(comment.id)}
+                          style={{
+                            padding: '6px 12px',
+                            backgroundColor: '#FF4C4C',
+                            border: 'none',
+                            borderRadius: '4px',
+                            color: 'white',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </Html>
+              </mesh>
+            )}
+    
+            {isAdmin && (
+              <mesh ref={planeRef} position={[14, -7, 41]} rotation={[0, Math.PI, 0]}>
+                <Html transform>
+                  <div
+                    className="unapproved-comments"
+                    style={{
+                      width: '300px',
+                      height: '500px',
+                      overflowY: 'auto',
+                      padding: '10px',
+                      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                      borderRadius: '5px',
+                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                    }}
+                  >
+                    <h3>Unapproved Comments:</h3>
+                    {unapprovedComments.map((comment) => (
+                      <div key={comment.id} className="comment">
+                        <p>{comment.comment}</p>
+                        <p>
+                          <strong>Posted by:</strong> {comment.google_user_id}
+                        </p>
+                        <button
+                          onClick={() => handleApproveComment(comment.id)}
+                          style={{
+                            padding: '6px 12px',
+                            backgroundColor: '#4CAF50',
+                            border: 'none',
+                            borderRadius: '4px',
+                            color: 'white',
+                            cursor: 'pointer',
+                            marginRight: '8px',
+                          }}
+                        >
+                          Approve
+                        </button>
+                        <button
+                          onClick={() => handleDeleteComment(comment.id)}
+                          style={{
+                            padding: '6px 12px',
+                            backgroundColor: '#FF4C4C',
+                            border: 'none',
+                            borderRadius: '4px',
+                            color: 'white',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </Html>
+              </mesh>
+            )}
+    
+            <spotLight position={[8, 6, 2]} angle={1.9} penumbra={1} intensity={300} />
+    
+            {!user ? (
+              <RoundedBox position={[-1.8, 2, 9]} args={[1.4, 1.4, 0.3]} radius={0.05} smoothness={4}>
                 <meshStandardMaterial color="#B5828C" />
+                <mesh ref={planeRef} position={[-14, 8, 45]} rotation={[0, Math.PI, 0]}>
+                  <Html transform>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <button
+                        onClick={login}
+                        style={{
+                          fontSize: '2rem',
+                          padding: '20px 40px',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
+                          fontWeight: 'bold',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {language === "French" ? (
+                          <>
+                            Connectez-vous avec <br /> Google pour <br /> commenter !
+                          </>
+                        ) : (
+                          <>
+                            Sign-In with Google <br /> to comment!
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </Html>
+                </mesh>
               </RoundedBox>
-
-              {/* Display comment text */}
-              <Text
-                position={[-0.9, boxHeight / 2 - 0.06, 0.16]}
-                fontSize={0.1}
-                color="#000"
-                anchorX="left"
-                anchorY="top"
-                maxWidth={1.8}
-              >
-                {lines.join("\n")}
-              </Text>
-
-              {/* Display user name */}
-              <Text
-                position={[-0.6, -boxHeight / 2 + 0.05, 0.16]}
-                fontSize={0.08}
-                color="#444"
-                anchorX="left"
-                anchorY="bottom"
-              >
-                {comment.name} - {formatTimestamp(comment.created_at)}
-              </Text>
-
-              {/* Display profile picture */}
-              <Html position={[-1.15, -boxHeight / 5 + 0.05, 0.16]} transform occlude>
-              <img
-                src={comment.photo || "images/no-image-found.jpg"}
-                alt=""
-                onError={(e) => (e.target.src = "images/no-image-found.jpg")}
-                style={{
-                  width: "15px",
-                  height: "15px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                }}
-              />
-              </Html>
+            ) : (
+              <RoundedBox position={[-1.8, 2, 9]} args={[1.4, 1.4, 0.3]} radius={0.05} smoothness={4}>
+                <meshStandardMaterial color="#B5828C" />
+                <mesh ref={planeRef} position={[-14, 15.5, 45]} rotation={[0, Math.PI, 0]}>
+                  <Html transform>
+                    <div className="user-profile">
+                      <img
+                        src={user.picture}
+                        alt="Profile"
+                        style={{
+                          width: '80px',
+                          height: '80px',
+                          borderRadius: '50%',
+                          border: '2px solid white',
+                        }}
+                      />
+                      <button
+                        onClick={handleLogout}
+                        style={{
+                          padding: '16px 30px',
+                          backgroundColor: '#FF4C4C',
+                          border: 'none',
+                          borderRadius: '20px',
+                          color: 'white',
+                          fontSize: '20px',
+                          fontWeight: 'bold',
+                          boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+                        }}
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  </Html>
+                </mesh>
+    
+                <mesh ref={planeRef} position={[-14.8, 8, 45]} rotation={[0, Math.PI, 0]}>
+                  <Html transform>
+                    <textarea
+                      value={comment}
+                      onChange={handleCommentChange}
+                      placeholder={language === "French" ? "Écrivez votre commentaire..." : "Write your comment..."}
+                      rows="4"
+                      cols="25"
+                      maxLength={100}
+                      style={{
+                        width: '350px',
+                        height: '280px',
+                        padding: '10px',
+                        fontSize: '20px',
+                        borderRadius: '5px',
+                        resize: 'none',
+                        backgroundColor: '#F8F8F8',
+                        border: '1px solid #ccc',
+                      }}
+                    />
+                    <button
+                      onClick={handleCommentSubmit}
+                      disabled={!comment.trim()}
+                      style={{
+                        padding: '16px 16px',
+                        backgroundColor: '#4CAF50',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        width: '84%',
+                      }}
+                    >
+                      {language === "French" ? "Envoyer" : "Send"}
+                    </button>
+                  </Html>
+                </mesh>
+                <mesh ref={planeRef} position={[-15, 1.5, 45]} rotation={[0, Math.PI, 0]}>
+                  <Html transform>
+                    {submitError && (
+                      <div
+                        style={{
+                          color: 'red',
+                          fontSize: '24px',
+                          marginTop: '150px',
+                          marginLeft: '-130px',
+                          minWidth: '300px',
+                        }}
+                      >
+                        {submitError}
+                      </div>
+                    )}
+                    {submitSuccess && (
+                      <div
+                        style={{
+                          color: 'green',
+                          fontSize: '24px',
+                          marginTop: '150px',
+                          marginLeft: '-130px',
+                          minWidth: '300px',
+                        }}
+                      >
+                        {submitSuccess}
+                      </div>
+                    )}
+                  </Html>
+                </mesh>
+              </RoundedBox>
+            )}
+    
+            <group
+              ref={groupRef}
+              position={[0, 3, 9]}
+              rotation={[0, Math.PI * -1, 0]}
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerOut={handlePointerUp}
+            >
+              {approvedComments.map((comment) => {
+                const lines = splitIntoLines(comment.comment);
+                const boxHeight = lines.length * lineHeight + 0.2;
+                const yPosition = -totalHeight;
+                totalHeight += boxHeight + boxGap;
+                topBound += boxHeight;
+    
+                return (
+                  <group key={comment.id} position={[0, yPosition - boxHeight / 2, 0]}>
+                    <RoundedBox args={[2, boxHeight, 0.3]} radius={0.05} smoothness={4}>
+                      <meshStandardMaterial color="#B5828C" />
+                    </RoundedBox>
+    
+                    {/* Display comment text */}
+                    <Text
+                      position={[-0.9, boxHeight / 2 - 0.06, 0.16]}
+                      fontSize={0.1}
+                      color="#000"
+                      anchorX="left"
+                      anchorY="top"
+                      maxWidth={1.8}
+                    >
+                      {lines.join("\n")}
+                    </Text>
+    
+                    {/* Display user name */}
+                    <Text
+                      position={[-0.6, -boxHeight / 2 + 0.05, 0.16]}
+                      fontSize={0.08}
+                      color="#444"
+                      anchorX="left"
+                      anchorY="bottom"
+                    >
+                      {comment.name} - {formatTimestamp(comment.created_at)}
+                    </Text>
+    
+                    {/* Display profile picture */}
+                    <Html position={[-1.15, -boxHeight / 5 + 0.05, 0.16]} transform occlude>
+                      <img
+                        src={comment.photo || "images/no-image-found.jpg"}
+                        alt=""
+                        onError={(e) => (e.target.src = "images/no-image-found.jpg")}
+                        style={{
+                          width: "15px",
+                          height: "15px",
+                          borderRadius: "50%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </Html>
+                  </group>
+                );
+              })}
             </group>
-          );
-        })}
-      </group>
-    </>
-  );
-};
+          </>
+        )}
+      </>
+    );
+  }
 
 export default Comments;
