@@ -163,8 +163,6 @@ const Comments = ({ user, setUser, isAdmin, ADMIN_GOOGLE_USER_ID, language }) =>
   // Compute the total content height to define scrolling boundaries
   const lineHeight = 0.18;
   const boxGap = 0.1;
-  // Visible height of the scrollable area (adjust as needed)
-  // Define vertical bounds: the upper limit (topBound) and lower limit (bottomBound)
   var topBound = 3;  // maximum y position
   const bottomBound = 0; // minimum y position
 
@@ -180,10 +178,8 @@ const Comments = ({ user, setUser, isAdmin, ADMIN_GOOGLE_USER_ID, language }) =>
     if (dragging.current && groupRef.current) {
       const currentY = e.clientY;
       const deltaY = currentY - lastY.current;
-      // Invert the movement: subtracting makes upward pointer movement move the list upward
       const movement = deltaY * dragSpeed;
       groupRef.current.position.y -= movement;
-      // Store the inverted movement as the inertia velocity
       velocity.current = -movement;
       lastY.current = currentY;
 
