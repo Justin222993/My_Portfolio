@@ -30,7 +30,12 @@ const ProjectDetails = ({ language }) => {
   useEffect(() => {
     const fetchImage = async (imagePath, setter) => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/storage/${imagePath}`);
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/storage/${imagePath}`, {
+          headers: {
+            'Origin': window.location.origin,
+            'X-Requested-With': 'XMLHttpRequest',
+          },
+        });
         if (!response.ok) {
           throw new Error('Failed to fetch image');
         }
