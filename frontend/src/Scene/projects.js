@@ -325,44 +325,43 @@ const Projects = ({ isAdmin, language }) => {
     }
   };
 
-  const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrls, setImageUrls] = useState({});
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchImage = async () => {
+    const fetchAllImages = async () => {
+      const urls = {};
+  
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/storage/${photo}`, {
-          method: 'GET',
-          headers: {
-            'Origin': window.location.origin, // Add the Origin header
-            'X-Requested-With': 'XMLHttpRequest', // Add the X-Requested-With header
-            'Accept': 'image/*', // Ensure the image type is accepted
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch image');
+        for (const project of projects) {
+          const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/storage/${project.photo}`, {
+            method: 'GET',
+            headers: {
+              'Origin': window.location.origin,
+              'X-Requested-With': 'XMLHttpRequest',
+              'Accept': 'image/*',
+            },
+          });
+  
+          if (!response.ok) {
+            throw new Error(`Failed to fetch image for project ${project.id}`);
+          }
+  
+          const imageBlob = await response.blob();
+          urls[project.id] = URL.createObjectURL(imageBlob);
         }
-
-        // Convert the response to a Blob
-        const imageBlob = await response.blob();
-
-        // Create an object URL for the image
-        const imageObjectUrl = URL.createObjectURL(imageBlob);
-
-        // Set the image URL state
-        setImageUrl(imageObjectUrl);
+  
+        setImageUrls(urls); // Set all image URLs
       } catch (error) {
-        setError('Failed to fetch the image.');
+        setError('Failed to fetch images.');
         console.error(error);
       }
     };
-
-    // Only fetch the image if a photo path is provided
-    if (photo) {
-      fetchImage();
+  
+    if (projects.length > 0) {
+      fetchAllImages();
     }
-  }, [photo]);  // The effect runs when the `photo` prop changes
+  }, [projects]);
 
   return (
     <>
@@ -484,6 +483,7 @@ const Projects = ({ isAdmin, language }) => {
                     if (!randomPosition) return null; // Skip if position is undefined
   
                     return (
+
                       <div
                         key={project.id}
                         style={{
@@ -502,7 +502,7 @@ const Projects = ({ isAdmin, language }) => {
                         onTouchStart={(e) => handlePointerDown(index, e)}
                       >
                         <img
-                          src={imageUrl}
+                          src={imageUrls[project.id]}
                           alt={project.title}
                           style={{
                             marginBottom: '10px',
