@@ -402,7 +402,7 @@ const Projects = ({ isAdmin, language }) => {
                 }}
               >
                 <img
-                  src={`${process.env.REACT_APP_API_BASE_URL}/storage/${project.photo}`}
+                  src={imageUrls[project.id]}
                   alt={project.title}
                   style={{
                     marginBottom: '10px',
