@@ -6,7 +6,10 @@ const ProjectDetails = ({ language }) => {
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
+  const [secondaryImageUrl, setSecondaryImageUrl] = useState('');
 
+  // Fetch project details
   useEffect(() => {
     const fetchProject = async () => {
       try {
@@ -24,13 +27,13 @@ const ProjectDetails = ({ language }) => {
     fetchProject();
   }, [id]);
 
-  const [imageUrl, setImageUrl] = useState('');
-  const [secondaryImageUrl, setSecondaryImageUrl] = useState('');
-
+  // Fetch image after project is fetched
   useEffect(() => {
+    if (!project) return; // Only run if the project is available
+
     const fetchImage = async (imagePath, setter) => {
       try {
-        const response = await fetch(`https://cors-anywhere.herokuapp.com/http://96.23.35.62:8000/storage/${imagePath}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/storage/${imagePath}`, {
           method: 'GET',
           headers: {
             'Origin': window.location.origin, // Add the Origin header
@@ -50,13 +53,13 @@ const ProjectDetails = ({ language }) => {
     };
 
     // Fetch the primary image
-    fetchImage(project.photo, setImageUrl);
+    if (project.photo) fetchImage(project.photo, setImageUrl);
 
     // Fetch the secondary image (if it exists)
     if (project.secondary_photo) {
       fetchImage(project.secondary_photo, setSecondaryImageUrl);
     }
-  }, [project.photo, project.secondary_photo]);
+  }, [project]); // This effect runs only when the project is fetched
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -77,17 +80,17 @@ const ProjectDetails = ({ language }) => {
         {language === 'French' ? frenchDescription : englishDescription}
       </p>
       <p style={styles.skills}>
-        
-      {language === "French" ? (
-                <>
-                  Compétences requis:<br/>
-                </>
-              ) : (
-                <>
-                  Skills required:<br/>
-                </>
-              )} 
-          {project.skills_required}</p>
+        {language === "French" ? (
+          <>
+            Compétences requis:<br />
+          </>
+        ) : (
+          <>
+            Skills required:<br />
+          </>
+        )}
+        {project.skills_required}
+      </p>
       <p style={styles.date}>Date: {new Date(project.date).toDateString()}</p>
       {project.secondary_photo && (
         <img
