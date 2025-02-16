@@ -150,7 +150,7 @@ const Comments = ({ user, setUser, isAdmin, ADMIN_GOOGLE_USER_ID, language }) =>
   if (loading) {
     return (
       <Text
-        position={[0, 1, 7]}
+        position={[0, 1, 10]}
         rotation={[0, Math.PI, 0]}
         fontSize={0.2}
         color="teal"
@@ -163,7 +163,7 @@ const Comments = ({ user, setUser, isAdmin, ADMIN_GOOGLE_USER_ID, language }) =>
   if (error) {
     return (
       <Text
-        position={[0, 1, 7]}
+        position={[0, 1, 10]}
         rotation={[0, Math.PI, 0]}
         fontSize={0.2}
         color="red"
