@@ -24,6 +24,33 @@ const ProjectDetails = ({ language }) => {
     fetchProject();
   }, [id]);
 
+  const [imageUrl, setImageUrl] = useState('');
+  const [secondaryImageUrl, setSecondaryImageUrl] = useState('');
+
+  useEffect(() => {
+    const fetchImage = async (imagePath, setter) => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/storage/${imagePath}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch image');
+        }
+        const blob = await response.blob();
+        const imageUrl = URL.createObjectURL(blob);
+        setter(imageUrl);  // Set the fetched image URL
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    // Fetch the primary image
+    fetchImage(project.photo, setImageUrl);
+
+    // Fetch the secondary image (if it exists)
+    if (project.secondary_photo) {
+      fetchImage(project.secondary_photo, setSecondaryImageUrl);
+    }
+  }, [project.photo, project.secondary_photo]);
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -35,7 +62,7 @@ const ProjectDetails = ({ language }) => {
     <div style={styles.container}>
       <h1 style={styles.title}>{project.title}</h1>
       <img
-        src={`${process.env.REACT_APP_API_BASE_URL}/storage/${project.photo}`}
+        src={imageUrl}
         alt={project.title}
         style={styles.image}
       />
@@ -57,7 +84,7 @@ const ProjectDetails = ({ language }) => {
       <p style={styles.date}>Date: {new Date(project.date).toDateString()}</p>
       {project.secondary_photo && (
         <img
-          src={`${process.env.REACT_APP_API_BASE_URL}/storage/${project.secondary_photo}`}
+          src={secondaryImageUrl}
           alt="Secondary"
           style={styles.image}
         />
