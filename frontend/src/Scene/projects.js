@@ -325,6 +325,45 @@ const Projects = ({ isAdmin, language }) => {
     }
   };
 
+  const [imageUrl, setImageUrl] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/storage/${photo}`, {
+          method: 'GET',
+          headers: {
+            'Origin': window.location.origin, // Add the Origin header
+            'X-Requested-With': 'XMLHttpRequest', // Add the X-Requested-With header
+            'Accept': 'image/*', // Ensure the image type is accepted
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch image');
+        }
+
+        // Convert the response to a Blob
+        const imageBlob = await response.blob();
+
+        // Create an object URL for the image
+        const imageObjectUrl = URL.createObjectURL(imageBlob);
+
+        // Set the image URL state
+        setImageUrl(imageObjectUrl);
+      } catch (error) {
+        setError('Failed to fetch the image.');
+        console.error(error);
+      }
+    };
+
+    // Only fetch the image if a photo path is provided
+    if (photo) {
+      fetchImage();
+    }
+  }, [photo]);  // The effect runs when the `photo` prop changes
+
   return (
     <>
 {isMobile ? (
@@ -463,7 +502,7 @@ const Projects = ({ isAdmin, language }) => {
                         onTouchStart={(e) => handlePointerDown(index, e)}
                       >
                         <img
-                          src={`${process.env.REACT_APP_API_BASE_URL}/storage/${project.photo}`}
+                          src={imageUrl}
                           alt={project.title}
                           style={{
                             marginBottom: '10px',
@@ -478,7 +517,11 @@ const Projects = ({ isAdmin, language }) => {
                     );
                   })
                 ) : (
-                  <p>Loading projects...</p>
+                  error ? (
+                    <p>Error loading projects. Please try again later.</p> // Display error message if error exists
+                  ) : (
+                    <p>Loading projects...</p> // Display loading message if still loading
+                  )
                 )}
               </div>
             </Html>
