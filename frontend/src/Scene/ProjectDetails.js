@@ -30,10 +30,12 @@ const ProjectDetails = ({ language }) => {
   useEffect(() => {
     const fetchImage = async (imagePath, setter) => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/storage/${imagePath}`, {
+        const response = await fetch(`https://cors-anywhere.herokuapp.com/http://96.23.35.62:8000/storage/${imagePath}`, {
+          method: 'GET',
           headers: {
-            'Origin': window.location.origin,
-            'X-Requested-With': 'XMLHttpRequest',
+            'Origin': window.location.origin, // Add the Origin header
+            'X-Requested-With': 'XMLHttpRequest', // Add the X-Requested-With header
+            'Accept': 'image/*', // Ensure the image type is accepted
           },
         });
         if (!response.ok) {
