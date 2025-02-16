@@ -153,7 +153,7 @@ const SceneViewer = ({ language }) => {
           <ambientLight />
         <CameraController mouse={mouse} groupRef={groupRef} rotation={rotation} />
         <ambientLight intensity={0.5} />
-        <spotLight position={[6, 6, 4]} angle={0.4} penumbra={1} intensity={500} />
+        <spotLight position={[6, 6, 6]} angle={0.7} penumbra={1} intensity={500} />
         <Suspense fallback={null}>
           <CharacterModel
             modelPath={`${process.env.PUBLIC_URL}/assets/CharactaurhRig.glb`}
@@ -173,10 +173,10 @@ const SceneViewer = ({ language }) => {
                 mouse={mouse}
               />
               
-              <SpeechBubble position={[0, 1, -2]} />
+              <SpeechBubble position={[0, 1, -5]} />
 
               <Text
-                position={[0, 1.30, 0.26]}
+                position={[0, 1.30, -1.4]}
                 fontSize={0.08}
                 color="black"
                 anchorX="center"
@@ -193,15 +193,15 @@ const SceneViewer = ({ language }) => {
               <ForestHouseModel
                 modelPath={`${process.env.PUBLIC_URL}/assets/forest_house.glb`}
                 scale={40}
-                position={[-2, -1.2, -6]}
+                position={[-1.5, -1.2, -8]}
                 rotation={[0, Math.PI / 1.5, 0]}
                 groupRef={groupRef}
               />
 
               <LayeredText
-                position={[0, 7.5, -13]}
+                position={[0, 7, -13]}
                 rotation={[0, 0, 0]}
-                fontSize={1}
+                fontSize={0.7}
               >
                 Justin Morissette
               </LayeredText>
@@ -380,6 +380,7 @@ const arrowStyle = {
     background: "rgba(0, 0, 0, 0.5)",
     color: "white",
     borderRadius: "5px",
+    userSelect: "none",
   },
   right: {
     position: "absolute",
@@ -392,6 +393,7 @@ const arrowStyle = {
     background: "rgba(0, 0, 0, 0.5)",
     color: "white",
     borderRadius: "5px",
+    userSelect: "none",
   },
 };
 

@@ -307,7 +307,7 @@ const Comments = ({ user, setUser, isAdmin, ADMIN_GOOGLE_USER_ID, language }) =>
             <Html transform>
               <div
                 style={{
-                  width: '500px',
+                  width: '400px',
                   height: '800px',
                   overflowY: 'auto',
                   padding: '10px',

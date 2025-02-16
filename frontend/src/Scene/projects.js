@@ -333,7 +333,7 @@ const Projects = ({ isAdmin, language }) => {
       <div
         ref={phoneRef}
         style={{
-          width: '700px',
+          width: '550px',
           height: '1200px',
           backgroundColor: 'rgba(255, 255, 255, 0.9)',
           display: 'flex',
