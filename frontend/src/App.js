@@ -29,8 +29,8 @@ function App() {
           onClick={toggleLanguage}
           style={{
             position: "absolute",
-            bottom: "40px",
-            right: "10px",
+            bottom: "5px",
+            right: "5px",
             padding: "8px 16px",
             backgroundColor: "#007bff",
             color: "#fff",
