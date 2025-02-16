@@ -28,7 +28,7 @@ Route::post('/comment', function (Request $request) {
     return response()->json(['message' => 'Comment submitted for approval!', 'comment' => $comment], 201);
 });
 
-// New route to fetch all comments
+// New route to fetch all comments AND TO DEPLOY!
 Route::get('/approvedComments', function () {
     $comments = Comment::where('approved', true)->get();
     return response()->json($comments);
