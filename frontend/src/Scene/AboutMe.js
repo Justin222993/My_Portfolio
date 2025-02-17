@@ -14,6 +14,12 @@ const AboutMe = ({ language }) => {
     3rd year student in Computer Science at Champlain College Saint-Lambert`,
   
     skillsTitle: "Skills",
+    skillType1: "Soft Skills",
+    skillType2: "Programming Languages",
+    skillType3: "Frameworks & Libraries",
+    skillType4: "Tools & Platforms",
+    skillType5: "Databases",
+
     softSkills: ["Long and short-term problem-solving", "Prioritizing tasks", "Team management, leadership, and collaboration", "Cool-headed under pressure", "Friendly and effective communicator"],
     programmingLanguages: ["Python, C#, Java", "JavaScript, TypeScript, PHP, Swift", "CSS, HTML, JSON", "Bash, PowerShell"],
     frameworks: ["Spring, Laravel, ASP.NET", "Bootstrap, jQuery, React"],
@@ -38,6 +44,12 @@ const AboutMe = ({ language }) => {
     Étudiant en 3ème année en informatique au Collège Champlain Saint-Lambert`,
   
     skillsTitle: "Compétences",
+    skillType1: "Compétences Douces",  
+    skillType2: "Langages de Programmation",  
+    skillType3: "Frameworks & Bibliothèques",  
+    skillType4: "Outils & Plateformes",  
+    skillType5: "Bases de Données",  
+
     softSkills: ["Résolution de problèmes à court et long terme", "Priorisation des tâches", "Gestion d'équipe, leadership et collaboration", "Calme sous pression", "Communication amicale et efficace"],
     programmingLanguages: ["Python, C#, Java", "JavaScript, TypeScript, PHP, Swift", "CSS, HTML, JSON", "Bash, PowerShell"],
     frameworks: ["Spring, Laravel, ASP.NET", "Bootstrap, jQuery, React"],
@@ -98,35 +110,35 @@ const AboutMe = ({ language }) => {
           <div style={{ marginBottom: '20px' }}>
             <h3 style={{ color: '#007bff', marginBottom: '10px' }}>{content.skillsTitle}</h3>
             <ul style={{ listStyleType: 'none', padding: 0 }}>
-              <li style={{ marginBottom: '5px', fontWeight: 'bold' }}>Soft Skills</li>
+              <li style={{ marginBottom: '5px', fontWeight: 'bold' }}>{content.skillType1}</li>
               <ul style={{ listStyleType: 'none', paddingLeft: '20px', marginBottom: '10px' }}>
                 {content.softSkills.map((skill, index) => (
                   <li key={index} style={{ marginBottom: '5px' }}>{skill}</li>
                 ))}
               </ul>
 
-              <li style={{ marginBottom: '5px', fontWeight: 'bold' }}>Programming Languages</li>
+              <li style={{ marginBottom: '5px', fontWeight: 'bold' }}>{content.skillType2}</li>
               <ul style={{ listStyleType: 'none', paddingLeft: '20px', marginBottom: '10px' }}>
                 {content.programmingLanguages.map((language, index) => (
                   <li key={index} style={{ marginBottom: '5px' }}>{language}</li>
                 ))}
               </ul>
 
-              <li style={{ marginBottom: '5px', fontWeight: 'bold' }}>Frameworks & Libraries</li>
+              <li style={{ marginBottom: '5px', fontWeight: 'bold' }}>{content.skillType3}</li>
               <ul style={{ listStyleType: 'none', paddingLeft: '20px', marginBottom: '10px' }}>
                 {content.frameworks.map((framework, index) => (
                   <li key={index} style={{ marginBottom: '5px' }}>{framework}</li>
                 ))}
               </ul>
 
-              <li style={{ marginBottom: '5px', fontWeight: 'bold' }}>Tools & Platforms</li>
+              <li style={{ marginBottom: '5px', fontWeight: 'bold' }}>{content.skillType4}</li>
               <ul style={{ listStyleType: 'none', paddingLeft: '20px', marginBottom: '10px' }}>
                 {content.tools.map((tool, index) => (
                   <li key={index} style={{ marginBottom: '5px' }}>{tool}</li>
                 ))}
               </ul>
 
-              <li style={{ marginBottom: '5px', fontWeight: 'bold' }}>Databases</li>
+              <li style={{ marginBottom: '5px', fontWeight: 'bold' }}>{content.skillType5}</li>
               <ul style={{ listStyleType: 'none', paddingLeft: '20px', marginBottom: '10px' }}>
                 {content.databases.map((db, index) => (
                   <li key={index} style={{ marginBottom: '5px' }}>{db}</li>
