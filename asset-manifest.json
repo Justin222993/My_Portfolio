@@ -1,12 +1,12 @@
 {
   "files": {
     "main.css": "/My_Portfolio/static/css/main.5793a1dd.css",
-    "main.js": "/My_Portfolio/static/js/main.0a6feef1.js",
+    "main.js": "/My_Portfolio/static/js/main.a3e1718d.js",
     "static/js/685.600cce29.chunk.js": "/My_Portfolio/static/js/685.600cce29.chunk.js",
     "index.html": "/My_Portfolio/index.html"
   },
   "entrypoints": [
     "static/css/main.5793a1dd.css",
-    "static/js/main.0a6feef1.js"
+    "static/js/main.a3e1718d.js"
   ]
 }
