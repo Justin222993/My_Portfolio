@@ -39,7 +39,7 @@ function App() {
             cursor: "pointer",
           }}
         >
-          {language}
+        {language === "English" ? "French" : "English"}
         </button>
       ) : (
         <button
@@ -56,7 +56,7 @@ function App() {
           cursor: "pointer",
         }}
       >
-        {language}
+        {language === "English" ? "French" : "English"}
       </button>
       )}
         {/* Routes */}

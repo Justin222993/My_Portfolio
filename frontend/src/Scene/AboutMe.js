@@ -100,46 +100,46 @@ const AboutMe = ({ language }) => {
 
           {/* Description Section */}
           <div style={{ marginBottom: '20px' }}>
-            <h3 style={{ color: '#007bff', marginBottom: '10px' }}>{content.aboutMeTitle}</h3>
-            <p style={{ lineHeight: '1.6' }}>
+            <h2 style={{ color: '#007bff', marginBottom: '10px' }}>{content.aboutMeTitle}</h2>
+            <p style={{ lineHeight: '1.6', fontSize: '22px' }}>
               {content.aboutMe}
             </p>
           </div>
 
           {/* Skills Section */}
           <div style={{ marginBottom: '20px' }}>
-            <h3 style={{ color: '#007bff', marginBottom: '10px' }}>{content.skillsTitle}</h3>
+            <h2 style={{ color: '#007bff', marginBottom: '10px' }}>{content.skillsTitle}</h2>
             <ul style={{ listStyleType: 'none', padding: 0 }}>
-              <li style={{ marginBottom: '5px', fontWeight: 'bold' }}>{content.skillType1}</li>
-              <ul style={{ listStyleType: 'none', paddingLeft: '20px', marginBottom: '10px' }}>
+              <li style={{ marginBottom: '5px', fontWeight: 'bold', fontSize: '22px' }}>{content.skillType1}</li>
+              <ul style={{ listStyleType: 'none', paddingLeft: '20px', marginBottom: '10px', fontSize: '22px' }}>
                 {content.softSkills.map((skill, index) => (
                   <li key={index} style={{ marginBottom: '5px' }}>{skill}</li>
                 ))}
               </ul>
 
-              <li style={{ marginBottom: '5px', fontWeight: 'bold' }}>{content.skillType2}</li>
-              <ul style={{ listStyleType: 'none', paddingLeft: '20px', marginBottom: '10px' }}>
+              <li style={{ marginBottom: '5px', fontWeight: 'bold', fontSize: '22px' }}>{content.skillType2}</li>
+              <ul style={{ listStyleType: 'none', paddingLeft: '20px', marginBottom: '10px', fontSize: '22px' }}>
                 {content.programmingLanguages.map((language, index) => (
                   <li key={index} style={{ marginBottom: '5px' }}>{language}</li>
                 ))}
               </ul>
 
-              <li style={{ marginBottom: '5px', fontWeight: 'bold' }}>{content.skillType3}</li>
-              <ul style={{ listStyleType: 'none', paddingLeft: '20px', marginBottom: '10px' }}>
+              <li style={{ marginBottom: '5px', fontWeight: 'bold', fontSize: '22px' }}>{content.skillType3}</li>
+              <ul style={{ listStyleType: 'none', paddingLeft: '20px', marginBottom: '10px', fontSize: '22px' }}>
                 {content.frameworks.map((framework, index) => (
                   <li key={index} style={{ marginBottom: '5px' }}>{framework}</li>
                 ))}
               </ul>
 
-              <li style={{ marginBottom: '5px', fontWeight: 'bold' }}>{content.skillType4}</li>
-              <ul style={{ listStyleType: 'none', paddingLeft: '20px', marginBottom: '10px' }}>
+              <li style={{ marginBottom: '5px', fontWeight: 'bold', fontSize: '22px' }}>{content.skillType4}</li>
+              <ul style={{ listStyleType: 'none', paddingLeft: '20px', marginBottom: '10px', fontSize: '22px' }}>
                 {content.tools.map((tool, index) => (
                   <li key={index} style={{ marginBottom: '5px' }}>{tool}</li>
                 ))}
               </ul>
 
-              <li style={{ marginBottom: '5px', fontWeight: 'bold' }}>{content.skillType5}</li>
-              <ul style={{ listStyleType: 'none', paddingLeft: '20px', marginBottom: '10px' }}>
+              <li style={{ marginBottom: '5px', fontWeight: 'bold', fontSize: '22px' }}>{content.skillType5}</li>
+              <ul style={{ listStyleType: 'none', paddingLeft: '20px', marginBottom: '10px', fontSize: '22px' }}>
                 {content.databases.map((db, index) => (
                   <li key={index} style={{ marginBottom: '5px' }}>{db}</li>
                 ))}
@@ -165,9 +165,9 @@ const AboutMe = ({ language }) => {
                   gap: '10px' 
                 }}
               >
-                <h3 style={{ flex: '1 1 100%' }}>
+                <h2 style={{ flex: '1 1 100%' }}>
                   {language === 'English' ? englishText.title1 : frenchText.title1}
-                </h3>
+                </h2>
                 <img 
                   src={`${process.env.PUBLIC_URL}/images/climbing.jpg`} 
                   alt="Climbing" 
@@ -186,9 +186,9 @@ const AboutMe = ({ language }) => {
                   gap: '10px' 
                 }}
               >
-                <h3 style={{ flex: '1 1 100%' }}>
+                <h2 style={{ flex: '1 1 100%' }}>
                   {language === 'English' ? englishText.title2 : frenchText.title2}
-                </h3>
+                </h2>
                 <img 
                   src={`${process.env.PUBLIC_URL}/images/writing.jpg`} 
                   alt="Writing" 
@@ -198,14 +198,14 @@ const AboutMe = ({ language }) => {
 
               {/* Additional Hobby Section */}
               <div style={{ textAlign: 'center', width: '70%' }}>
-                <h3><b>{language === 'English' ? englishText.title3 : frenchText.title3}</b></h3>
+                <h2><b>{language === 'English' ? englishText.title3 : frenchText.title3}</b></h2>
               </div>
             </div>
           </div>
 
           {/* Social Links */}
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-            <h3 style={{ color: '#007bff', marginBottom: '10px' }}>{content.connectWithMe}</h3>
+            <h2 style={{ color: '#007bff', marginBottom: '10px' }}>{content.connectWithMe}</h2>
             <a
               href="https://github.com/Justin222993"
               target="_blank"
@@ -237,9 +237,9 @@ const AboutMe = ({ language }) => {
 
           {/* CV Download Section */}
           <div style={{ marginBottom: '20px', textAlign: 'center' }}>
-            <h3 style={{ color: '#007bff', marginBottom: '10px' }}>{content.downloadCV}</h3>
+            <h2 style={{ color: '#007bff', marginBottom: '10px' }}>{content.downloadCV}</h2>
             <a
-              href={`${process.env.PUBLIC_URL}/Resume/JustinMorissette-Resume.pdf`} // Replace with your CV file path
+              href={`${process.env.PUBLIC_URL}/Resume/JustinMorissette-Resume.pdf`}
               download="Justin_Morissette_CV.pdf"
               style={{
                 display: 'inline-block',
@@ -249,6 +249,7 @@ const AboutMe = ({ language }) => {
                 borderRadius: '5px',
                 textDecoration: 'none',
                 transition: 'background-color 0.3s',
+                fontSize: '26px',
               }}
               onMouseOver={(e) => (e.target.style.backgroundColor = '#0056b3')}
               onMouseOut={(e) => (e.target.style.backgroundColor = '#007bff')}
@@ -259,7 +260,7 @@ const AboutMe = ({ language }) => {
 
           {/* Email Link Section */}
           <div style={{ textAlign: 'center' }}>
-            <h3 style={{ color: '#007bff', marginBottom: '10px' }}>{content.contactMe}</h3>
+            <h2 style={{ color: '#007bff', marginBottom: '10px' }}>{content.contactMe}</h2>
             <a
               href="mailto:justin.morissette.qc@gmail.com"
               style={{
@@ -270,13 +271,16 @@ const AboutMe = ({ language }) => {
                 borderRadius: '5px',
                 textDecoration: 'none',
                 transition: 'background-color 0.3s',
+                fontSize: '26px',
               }}
               onMouseOver={(e) => (e.target.style.backgroundColor = '#218838')}
               onMouseOut={(e) => (e.target.style.backgroundColor = '#28a745')}
             >
               Send Email
             </a>
-            <p>justin.morissette.qc@gmail.com</p>
+            <p style={{
+                fontSize: '26px',
+              }}>justin.morissette.qc@gmail.com</p>
           </div>
         </div>
       </Html>
